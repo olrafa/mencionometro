@@ -1,43 +1,40 @@
-/* eslint-disable no-console */
-import { launch } from "puppeteer";
+import bodyParser from "body-parser";
+import cors from "cors";
+import express, { Request, Response } from "express";
+import cron from "node-cron";
 
-import { SEARCH_TERM, WEBSITES } from "./constants";
+import { client } from "./config";
+import { runScraping } from "./scrape";
 
-const scrapeWebsiteForTerm = async (
-  name: string,
-  url: string,
-  searchTerm: string,
-) => {
-  const browser = await launch({ headless: "new" });
-  const page = await browser.newPage();
+const app = express();
 
-  try {
-    console.log("Searching on", name);
-    // Navigate to the URL
-    await page.goto(url);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-    // Extract the page content and check if the term is present
-    const pageContent = await page.content();
-
-    const itemFound = pageContent.includes(searchTerm);
-
-    console.log(
-      itemFound
-        ? `${searchTerm} found on ${name} at ${new Date()}`
-        : `${searchTerm} not found on ${name}.`,
-    );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.error(`Error scraping ${name}: ${error.message}`);
-  } finally {
-    await browser.close();
-  }
+const getMentions = (request: Request, response: Response) => {
+  client.query("SELECT * FROM mentions", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
 };
 
-const runScraping = async () => {
-  for (const { name, url } of WEBSITES) {
-    await scrapeWebsiteForTerm(name, url, SEARCH_TERM);
-  }
+const addMention = (request: Request, response: Response) => {
+  const { site } = request.body;
+
+  client.query("INSERT INTO mentions (site) VALUES ($1)", [site], (error) => {
+    if (error) {
+      throw error;
+    }
+    response.status(201).json({ status: "success", message: "Mention added." });
+  });
 };
 
-runScraping().then(() => console.log("All websites searched."));
+app.route("/mentions").get(getMentions).post(addMention);
+
+// cron.schedule("0 0,6,12,18 * * *", () => runScraping());
+cron.schedule("* * * * *", () => runScraping());
+
+app.listen(process.env.PORT || 3002, () => console.log(`Server listening`));
