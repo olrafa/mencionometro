@@ -34,7 +34,7 @@ const addMention = (request: Request, response: Response) => {
 
 app.route("/mentions").get(getMentions).post(addMention);
 
-// cron.schedule("0 0,6,12,18 * * *", () => runScraping());
-cron.schedule("* * * * *", () => runScraping());
+cron.schedule("0 0,6,12,18 * * *", () => runScraping());
+// cron.schedule("* * * * *", () => runScraping());
 
 app.listen(process.env.PORT || 3002, () => console.log(`Server listening`));
