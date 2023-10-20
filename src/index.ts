@@ -21,18 +21,7 @@ const getMentions = (request: Request, response: Response) => {
   });
 };
 
-const addMention = (request: Request, response: Response) => {
-  const { site } = request.body;
-
-  client.query("INSERT INTO mentions (site) VALUES ($1)", [site], (error) => {
-    if (error) {
-      throw error;
-    }
-    response.status(201).json({ status: "success", message: "Mention added." });
-  });
-};
-
-app.route("/mentions").get(getMentions).post(addMention);
+app.route("/mentions").get(getMentions);
 
 cron.schedule("0 0,6,12,18 * * *", () => runScraping());
 // cron.schedule("* * * * *", () => runScraping());

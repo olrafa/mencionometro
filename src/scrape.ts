@@ -2,10 +2,10 @@
 import { launch } from "puppeteer";
 
 import { client } from "./config";
-import { SEARCH_TERM, WEBSITES } from "./constants";
+import { SEARCH_TERMS, WEBSITES } from "./constants";
 
 const scrapeWebsiteForTerm = async (
-  name: string,
+  mediaOutlet: string,
   url: string,
   searchTerm: string,
 ) => {
@@ -13,7 +13,7 @@ const scrapeWebsiteForTerm = async (
   const page = await browser.newPage();
 
   try {
-    console.log("Searching on", name);
+    console.log("Searching on", mediaOutlet);
     // Navigate to the URL
     await page.goto(url);
 
@@ -23,10 +23,10 @@ const scrapeWebsiteForTerm = async (
     const itemFound = pageContent.includes(searchTerm);
 
     if (itemFound) {
-      console.log(`${searchTerm} found on ${name}.`);
+      console.log(`${searchTerm} found on ${mediaOutlet}.`);
       client.query(
-        "INSERT INTO mentions (site) VALUES ($1)",
-        [name],
+        "INSERT INTO mentions (searchTerm, site) VALUES ($1, $2)",
+        [searchTerm, mediaOutlet],
         (error) => {
           if (error) {
             throw error;
@@ -36,19 +36,21 @@ const scrapeWebsiteForTerm = async (
         },
       );
     } else {
-      console.log(`${searchTerm} not found on ${name}.`);
+      console.log(`${searchTerm} not found on ${mediaOutlet}.`);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error(`Error scraping ${name}: ${error.message}`);
+    console.error(`Error scraping ${mediaOutlet}: ${error.message}`);
   } finally {
     await browser.close();
   }
 };
 
 export const runScraping = async () => {
-  for (const { name, url } of WEBSITES) {
-    await scrapeWebsiteForTerm(name, url, SEARCH_TERM);
+  for (const searchTerm of SEARCH_TERMS) {
+    for (const { mediaOutlet, url } of WEBSITES) {
+      await scrapeWebsiteForTerm(mediaOutlet, url, searchTerm);
+    }
   }
 };
