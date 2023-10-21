@@ -53,4 +53,5 @@ export const runScraping = async () => {
       await scrapeWebsiteForTerm(mediaOutlet, url, searchTerm);
     }
   }
+  console.log("Search finished at", new Date());
 };

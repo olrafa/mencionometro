@@ -21,6 +21,10 @@ const getMentions = (request: Request, response: Response) => {
   });
 };
 
+app.get("/", (req, res) => {
+  res.send("Neymarmeter is live");
+});
+
 app.route("/mentions").get(getMentions);
 
 cron.schedule("0 0,6,12,18 * * *", () => runScraping());
