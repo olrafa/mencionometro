@@ -1,10 +1,10 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express, { Request, Response } from "express";
+import cron from "node-cron";
 
-// import cron from "node-cron";
 import { client } from "./config";
-// import runScraping from "./runScraping";
+import { runScraping } from "./scrape";
 
 const app = express();
 
@@ -28,6 +28,6 @@ app.get("/", (req, res) => {
 app.route("/mentions").get(getMentions);
 
 // cron.schedule("0 0,6,12,18 * * *", () => runScraping());
-// cron.schedule("*/5 * * * *", () => runScraping());
+cron.schedule("*/5 * * * *", () => runScraping());
 
 app.listen(process.env.PORT || 3002, () => console.log(`Server listening`));

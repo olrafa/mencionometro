@@ -47,7 +47,7 @@ const scrapeWebsiteForTerm = async (
   }
 };
 
-const runScraping = async () => {
+export const runScraping = async () => {
   for (const searchTerm of SEARCH_TERMS) {
     for (const { mediaOutlet, url } of WEBSITES) {
       await scrapeWebsiteForTerm(mediaOutlet, url, searchTerm);
@@ -55,5 +55,3 @@ const runScraping = async () => {
   }
   console.log("Search finished at", new Date());
 };
-
-export default runScraping;
