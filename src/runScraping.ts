@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { launch } from "puppeteer";
 
-import { client } from "../../config";
-import { SEARCH_TERMS, WEBSITES } from "../../constants";
+import { client } from "./config";
+import { SEARCH_TERMS, WEBSITES } from "./constants";
 
 const scrapeWebsiteForTerm = async (
   mediaOutlet: string,

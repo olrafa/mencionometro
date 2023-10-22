@@ -14,7 +14,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron",
+      "path": "/src/runScraping.ts",
       "schedule": "*/5 * * * *"
     }
   ]
