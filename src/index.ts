@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.route("/mentions").get(getMentions);
 
-cron.schedule("0 0,6,12,18 * * *", () => runScraping());
-// cron.schedule("* * * * *", () => runScraping());
+// cron.schedule("0 0,6,12,18 * * *", () => runScraping());
+cron.schedule("*/5 * * * *", () => runScraping());
 
 app.listen(process.env.PORT || 3002, () => console.log(`Server listening`));
