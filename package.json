@@ -6,9 +6,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "prepare": "husky install",
-    "build": "rimraf dist && tsc",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -48,10 +46,5 @@
       "npx prettier --write",
       "npx eslint --fix"
     ]
-  },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-]
+  }
 }
