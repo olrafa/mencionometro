@@ -9,6 +9,7 @@ router.get("/mentions", (request: Request, response: Response) => {
     if (error) {
       throw error;
     }
+
     response.status(200).json(results.rows);
   });
 });
