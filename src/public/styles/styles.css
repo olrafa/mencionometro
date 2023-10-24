@@ -1,0 +1,40 @@
+body {
+  background-image: url(../assets/img001.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Roboto", sans-serif;
+}
+
+/* For mobile screens */
+@media (max-width: 767px) {
+  body {
+    background-position: center;
+  }
+}
+
+h1 {
+  text-transform: uppercase;
+}
+
+#content {
+  background: teal;
+  opacity: 0.8;
+  margin: 2rem;
+  padding: 1rem 2rem;
+  color: floralwhite;
+  border-radius: 4px;
+  text-align: center;
+}
+
+#unsplash-credit {
+  background: #f1f1f1;
+  padding: 0.5rem 0.5rem;
+  width: fit-content;
+  border-radius: 8px;
+  opacity: 0.8;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  font-size: 12px;
+}

@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express, { Request, Response } from "express";
+import path from "path";
 
 import { client } from "./config";
 
@@ -9,6 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "public")));
 
 const getMentions = (request: Request, response: Response) => {
   client.query("SELECT * FROM mentions", (error, results) => {
@@ -20,7 +23,7 @@ const getMentions = (request: Request, response: Response) => {
 };
 
 app.get("/", (req, res) => {
-  res.send("Neymarmeter is live");
+  res.sendFile(path.join(__dirname, "public"));
 });
 
 app.route("/mentions").get(getMentions);
