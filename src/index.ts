@@ -22,8 +22,12 @@ const getMentions = (request: Request, response: Response) => {
   });
 };
 
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public"));
+}); */
+
+app.get("/", (req, res) => {
+  res.send("Neymarmeter is live");
 });
 
 app.route("/mentions").get(getMentions);
