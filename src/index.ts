@@ -1,31 +1,17 @@
 import bodyParser from "body-parser";
 import cors from "cors";
-import express, { Request, Response } from "express";
+import express from "express";
 import path from "path";
 
-import { client } from "./config";
+import home from "./routes/home";
+import mentions from "./routes/mentions";
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
 app.use(express.static(path.join(__dirname, "public")));
-
-const getMentions = (request: Request, response: Response) => {
-  client.query("SELECT * FROM mentions", (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
-};
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public"));
-});
-
-app.route("/mentions").get(getMentions);
+app.use(home, mentions);
 
 app.listen(process.env.PORT || 3002, () => console.log(`Server listening`));
