@@ -3,3 +3,8 @@ export type Mention = {
   site: string;
   created_at: string;
 };
+
+export type MentionsSummary = {
+  runHour: string;
+  mentions: number;
+}[];

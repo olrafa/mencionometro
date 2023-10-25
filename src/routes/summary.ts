@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { client } from "../config";
 import { Mention } from "../types";
-import { summarizeData } from "../util";
+import { summarizeData } from "../util/summarizeData";
 
 const router = express.Router();
 

@@ -1,5 +1,7 @@
 import { Mention } from "../types";
 
+// import { generateTimestamps } from "./generateTimestamps";
+
 export const summarizeData = (data: Mention[]) => {
   const mentionsWithDates = data.map((d) => {
     const fixedDate = new Date(d.created_at);
@@ -20,6 +22,11 @@ export const summarizeData = (data: Mention[]) => {
       ({ date }) => date.toString() === runHour,
     ).length,
   }));
+
+  // Get time of first run
+  // const firstRun = new Date(Math.min(...runHours.map((h) => Date.parse(h))));
+
+  /* const timestamps = generateTimestamps(firstRun, 6, []); */
 
   return mentionsByHours;
 };
