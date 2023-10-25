@@ -23,10 +23,5 @@ export const summarizeData = (data: Mention[]) => {
     ).length,
   }));
 
-  // Get time of first run
-  // const firstRun = new Date(Math.min(...runHours.map((h) => Date.parse(h))));
-
-  /* const timestamps = generateTimestamps(firstRun, 6, []); */
-
   return mentionsByHours;
 };
