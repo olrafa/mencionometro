@@ -30,9 +30,9 @@ const createTimeBlocks = (timestamps, summary) => {
 
     dayRuns.forEach((dr) => {
       const runData = summary.find((s) => {
-        console.log(s.runHour.toString());
-        console.log(new Date(dr).toString());
-        return s.runHour.toString() === new Date(dr).toString();
+        console.log(new Date(s.runHour).toISOString());
+        console.log(new Date(dr).toISOString());
+        return new Date(s.runHour).toISOString() === new Date(dr).toISOString();
       });
 
       const { color = "#161b22" } = runData;
