@@ -15,10 +15,9 @@ const getData = async (route) => {
 };
 
 const createTimeBlocks = (timestamps, summary) => {
-  // const maxCount = Math.max(...summary.map((s) => s.mentions));
   const days = timestamps.map((ts) => new Date(ts).setHours(0, 0, 0, 0));
   const uniqueDays = [...new Set(days)].map((d) => new Date(d));
-  uniqueDays.forEach((d) => {
+  uniqueDays.forEach((d, i) => {
     // eslint-disable-next-line no-undef
     const dayBlock = document.createElement("div");
     chart.appendChild(dayBlock);
@@ -27,6 +26,20 @@ const createTimeBlocks = (timestamps, summary) => {
       (ts) =>
         new Date(new Date(ts).setHours(0, 0, 0, 0)).toString() === d.toString()
     );
+
+    const createEmptyBlock = () => {
+      // eslint-disable-next-line no-undef
+      const emptyBlock = document.createElement("div");
+      emptyBlock.className = "run-block";
+      dayBlock.appendChild(emptyBlock);
+    };
+
+    // Workaround to get blocks of the first day aligned with the others;
+    // Remove this when first scraping day is not returned anymore.
+    if (!i) {
+      createEmptyBlock();
+      createEmptyBlock();
+    }
 
     dayRuns.forEach((dr) => {
       const runData = summary.find(
@@ -42,21 +55,29 @@ const createTimeBlocks = (timestamps, summary) => {
       runBlock.style.backgroundColor = color;
       runBlock.setAttribute("data-tooltip", getTooltipString(dr, mentions));
     });
-  });
-};
 
-const options = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  hour12: false,
+    const completeDayBlock = () => {
+      if (dayBlock.childElementCount >= 4) {
+        return;
+      }
+      createEmptyBlock();
+      completeDayBlock();
+    };
+
+    completeDayBlock();
+  });
 };
 
 const getTooltipString = (runTime, mentions) =>
   `Neymar estava na página inicial de ${mentions} sites pesquisados em ${new Date(
     runTime
-  ).toLocaleString("pt-BR", options)} horas`;
+  ).toLocaleString("pt-BR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    hour12: false,
+  })} horas`;
 
 const initialize = async () => {
   const timestamps = await getData("timestamps");
