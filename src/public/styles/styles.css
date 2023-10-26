@@ -18,8 +18,7 @@ h1 {
 }
 
 #content {
-  background: teal;
-  opacity: 0.9;
+  background: rgba(0,128,128, 0.9);
   margin: 2rem;
   padding: 1rem 2rem;
   color: floralwhite;
@@ -31,7 +30,8 @@ h1 {
   margin-top: 2rem;
   border-radius: 4px;
   padding: 1rem;
-  background-color: black;
+  background-color: rgb(13, 17, 23, 0.8);
+  opacity: 1;
 }
 
 .time-block {
