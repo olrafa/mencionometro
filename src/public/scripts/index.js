@@ -29,14 +29,11 @@ const createTimeBlocks = (timestamps, summary) => {
     );
 
     dayRuns.forEach((dr) => {
-      const runData = summary.find((s) => {
-        console.log(new Date(s.runHour).toUTCString());
-        console.log(dr);
-        console.log(new Date(dr).toUTCString());
-        return new Date(s.runHour).toUTCString() === new Date(dr).toUTCString();
-      });
+      const runData = summary.find(
+        (s) => new Date(s.runHour).toUTCString() === new Date(dr).toUTCString()
+      );
 
-      const { color = "#161b22" } = runData;
+      const { color = "#161b22" } = runData || {};
 
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
