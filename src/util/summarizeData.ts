@@ -1,6 +1,6 @@
 import { Mention } from "../types";
 
-// import { generateTimestamps } from "./generateTimestamps";
+import { calculateColor } from "./addColors";
 
 export const summarizeData = (data: Mention[]) => {
   const mentionsWithDates = data.map((d) => {
@@ -23,5 +23,12 @@ export const summarizeData = (data: Mention[]) => {
     ).length,
   }));
 
-  return mentionsByHours;
+  const maxCount = Math.max(...mentionsByHours.map(({ mentions }) => mentions));
+
+  const mentionsSummary = mentionsByHours.map((i) => ({
+    ...i,
+    color: calculateColor(i.mentions, maxCount),
+  }));
+
+  return mentionsSummary;
 };

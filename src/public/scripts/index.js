@@ -15,7 +15,7 @@ const getData = async (route) => {
 };
 
 const createTimeBlocks = (timestamps, summary) => {
-  const maxCount = Math.max(...summary.map((s) => s.mentions));
+  // const maxCount = Math.max(...summary.map((s) => s.mentions));
   const days = timestamps.map((ts) => new Date(ts).setHours(0, 0, 0, 0));
   const uniqueDays = [...new Set(days)].map((d) => new Date(d));
   uniqueDays.forEach((d) => {
@@ -28,35 +28,19 @@ const createTimeBlocks = (timestamps, summary) => {
         new Date(new Date(ts).setHours(0, 0, 0, 0)).toString() === d.toString()
     );
     dayRuns.forEach((dr) => {
+      const runData = summary.find(
+        (s) => s.runHour.toString() === new Date(dr).toString() || {}
+      );
+      const { color = "#161b22" } = runData;
+
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
-      const mentionCount =
-        summary.find((s) => s.runHour.toString() === new Date(dr).toString())
-          ?.mentions || 0;
 
-      runBlock.style.backgroundColor = mentionCount
-        ? calculateColors(mentionCount, maxCount)
-        : "#161b22";
+      runBlock.style.backgroundColor = color;
     });
   });
-};
-
-const colors = ["#0e4429", "#006d32", "#26a641", "#39d353"];
-
-const calculateColors = (value, maxValue) => {
-  const minValue = 1;
-  const ratio = (value - minValue) / (maxValue - minValue);
-
-  // Determine the index in the array based on the ratio
-  const index = Math.min(Math.floor(ratio * colors.length), colors.length - 1);
-
-  // Get the color from the array at the determined index
-  const selectedColor = colors[index];
-
-  // Return the selected color
-  return selectedColor;
 };
 
 const initialize = async () => {
