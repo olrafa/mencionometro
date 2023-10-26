@@ -31,6 +31,7 @@ const createTimeBlocks = (timestamps, summary) => {
     dayRuns.forEach((dr) => {
       const runData = summary.find((s) => {
         console.log(new Date(s.runHour).toUTCString());
+        console.log(dr);
         console.log(new Date(dr).toUTCString());
         return new Date(s.runHour).toUTCString() === new Date(dr).toUTCString();
       });
@@ -42,8 +43,6 @@ const createTimeBlocks = (timestamps, summary) => {
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
       runBlock.style.backgroundColor = color;
-
-      console.log(color);
     });
   });
 };
