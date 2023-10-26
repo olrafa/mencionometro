@@ -27,18 +27,21 @@ const createTimeBlocks = (timestamps, summary) => {
       (ts) =>
         new Date(new Date(ts).setHours(0, 0, 0, 0)).toString() === d.toString()
     );
+
     dayRuns.forEach((dr) => {
       const runData = summary.find(
-        (s) => s.runHour.toString() === new Date(dr).toString() || {}
+        (s) => s.runHour.toString() === new Date(dr).toString()
       );
+
       const { color = "#161b22" } = runData;
 
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
-
       runBlock.style.backgroundColor = color;
+
+      console.log(color);
     });
   });
 };
