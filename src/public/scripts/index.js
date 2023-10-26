@@ -30,18 +30,16 @@ const createTimeBlocks = (timestamps, summary) => {
 
     dayRuns.forEach((dr) => {
       const runData = summary.find(
-        (s) => s.runHour.toString() === new Date(dr).toString()
+        (s) => new Date(s.runHour).toUTCString() === new Date(dr).toUTCString()
       );
 
-      const { color = "#161b22" } = runData;
+      const { color = "#161b22" } = runData || {};
 
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
       runBlock.style.backgroundColor = color;
-
-      console.log(color);
     });
   });
 };
