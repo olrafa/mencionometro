@@ -33,16 +33,30 @@ const createTimeBlocks = (timestamps, summary) => {
         (s) => new Date(s.runHour).toUTCString() === new Date(dr).toUTCString()
       );
 
-      const { color = "#161b22" } = runData || {};
+      const { color = "#161b22", mentions = 0 } = runData || {};
 
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
       runBlock.style.backgroundColor = color;
+      runBlock.setAttribute("data-tooltip", getTooltipString(dr, mentions));
     });
   });
 };
+
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  hour12: false,
+};
+
+const getTooltipString = (runTime, mentions) =>
+  `Neymar estava na página inicial de ${mentions} sites pesquisados em ${new Date(
+    runTime
+  ).toLocaleString("pt-BR", options)} horas`;
 
 const initialize = async () => {
   const timestamps = await getData("timestamps");

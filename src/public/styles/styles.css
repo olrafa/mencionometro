@@ -6,24 +6,18 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-/* For mobile screens */
-@media (max-width: 767px) {
-  body {
-    background-position: center;
-  }
-}
-
 h1 {
   text-transform: uppercase;
 }
 
 #content {
-  background: rgba(0,128,128, 0.9);
+  background: rgba(0, 128, 128, 0.9);
   margin: 2rem;
   padding: 1rem 2rem;
   color: floralwhite;
   border-radius: 4px;
   text-align: center;
+  padding-bottom: 5rem;
 }
 
 #chart {
@@ -39,10 +33,29 @@ h1 {
 }
 
 .run-block {
-  width: 11px;
-  height: 11px;
-  margin: 2px;
+  width: 15px;
+  height: 15px;
+  margin: 3px;
   border-radius: 2px;
+}
+
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  color: floralwhite;
+  border-radius: 5px;
+}
+
+[data-tooltip]:hover:before {
+  opacity: 1;
+  background: rgb(13, 17, 23, 0.8);
+  border-radius: 5px;
+  top: 22rem;
 }
 
 #unsplash-credit {
@@ -55,4 +68,19 @@ h1 {
   right: 1rem;
   bottom: 1rem;
   font-size: 12px;
+}
+
+/* For mobile screens */
+@media (max-width: 767px) {
+  body {
+    background-position: center;
+  }
+
+  #content {
+    padding-bottom: 10rem;
+  }
+
+  [data-tooltip]:hover:before {
+    top: 27rem;
+  }
 }
