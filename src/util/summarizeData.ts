@@ -23,11 +23,13 @@ export const summarizeData = (data: Mention[]) => {
     ).length,
   }));
 
-  const maxCount = Math.max(...mentionsByHours.map(({ mentions }) => mentions));
+  const counts = mentionsByHours.map(({ mentions }) => mentions);
+  const maxCount = Math.max(...counts);
+  const minCount = Math.min(...counts);
 
   const mentionsSummary = mentionsByHours.map((i) => ({
     ...i,
-    color: calculateColor(i.mentions, maxCount),
+    color: calculateColor(i.mentions, minCount, maxCount),
   }));
 
   return mentionsSummary;

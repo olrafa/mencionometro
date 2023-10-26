@@ -17,7 +17,6 @@ h1 {
   color: floralwhite;
   border-radius: 4px;
   text-align: center;
-  padding-bottom: 5rem;
 }
 
 #chart {
@@ -37,25 +36,31 @@ h1 {
   height: 15px;
   margin: 3px;
   border-radius: 2px;
+  position: relative;
 }
 
 [data-tooltip]:before {
   content: attr(data-tooltip);
   position: absolute;
+  width: min-content;
   opacity: 0;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 5px;
   padding: 10px;
   color: floralwhite;
   border-radius: 5px;
+  z-index: 1;
 }
 
 [data-tooltip]:hover:before {
   opacity: 1;
   background: rgb(13, 17, 23, 0.8);
   border-radius: 5px;
-  top: 22rem;
+  width: 400px;
+}
+
+#info {
+  text-align: left;
+  padding: 0 0.5rem;
 }
 
 #unsplash-credit {
@@ -77,10 +82,10 @@ h1 {
   }
 
   #content {
-    padding-bottom: 10rem;
+    margin: 1rem 0.5rem;
   }
 
-  [data-tooltip]:hover:before {
-    top: 27rem;
+  #info {
+    padding: 0;
   }
 }

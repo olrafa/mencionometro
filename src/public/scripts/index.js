@@ -69,7 +69,7 @@ const createTimeBlocks = (timestamps, summary) => {
 };
 
 const getTooltipString = (runTime, mentions) =>
-  `Neymar estava na página inicial de ${mentions} sites pesquisados em ${new Date(
+  `${mentions} resultados em ${new Date(
     runTime
   ).toLocaleString("pt-BR", {
     year: "numeric",
