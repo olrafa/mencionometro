@@ -16,12 +16,17 @@ export const summarizeData = (data: Mention[]) => {
     ...new Set(mentionsWithDates.map((item) => item.date.toString())),
   ].sort((date1, date2) => (date1 > date2 ? -1 : 1));
 
-  const mentionsByHours = runHours.map((runHour) => ({
-    runHour,
-    mentions: mentionsWithDates.filter(
+  const mentionsByHours = runHours.map((runHour) => {
+    const filteredDates = mentionsWithDates.filter(
       ({ date }) => date.toString() === runHour,
-    ).length,
-  }));
+    );
+
+    return {
+      runHour,
+      mentions: filteredDates.length,
+      sites: filteredDates.map(({ site }) => site),
+    };
+  });
 
   const counts = mentionsByHours.map(({ mentions }) => mentions);
   const maxCount = Math.max(...counts);

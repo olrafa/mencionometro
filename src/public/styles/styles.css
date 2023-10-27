@@ -73,8 +73,8 @@ h3 {
   margin-top: 1px;
 }
 
-#site-list a:link {
-  color: floralwhite;
+.search-site {
+  color: darkslategray;
   width: fit-content;
   padding: 0.5rem;
   border-radius: 5px;
@@ -82,16 +82,8 @@ h3 {
   text-decoration: none;
 }
 
-#site-list a:visited {
-  color: darkgray;
-}
-
-#site-list a:hover {
+.site-result {
   color: aquamarine;
-}
-
-#site-list a:active {
-  color: teal;
 }
 
 #unsplash-credit {

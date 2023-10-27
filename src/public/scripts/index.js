@@ -60,18 +60,34 @@ const createTimeBlocks = (timestamps, summary) => {
         (s) => new Date(s.runHour).toUTCString() === new Date(dr).toUTCString()
       );
 
-      const { color = "#161b22", mentions = 0 } = runData || {};
+      const { color = "#161b22", mentions = 0, sites = [] } = runData || {};
 
       // eslint-disable-next-line no-undef
       const runBlock = document.createElement("div");
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
       runBlock.style.backgroundColor = color;
+
+      const siteNameElements = Array.from(
+        // eslint-disable-next-line no-undef
+        document.querySelectorAll(".search-site")
+      );
+
+      const resultSites = siteNameElements.filter(({ innerHTML }) =>
+        sites.includes(innerHTML)
+      );
+
       runBlock.addEventListener("mouseenter", () => {
         detail.innerHTML = getTooltipString(dr, mentions);
+        resultSites.forEach((rs) => {
+          rs.classList.add("site-result");
+        });
       });
       runBlock.addEventListener("mouseleave", () => {
         detail.innerHTML = "";
+        resultSites.forEach((rs) => {
+          rs.classList.remove("site-result");
+        });
       });
     });
 
@@ -104,23 +120,21 @@ const createSitesList = (sites) => {
   const siteList = document.getElementById("site-list");
   sites.forEach((s) => {
     // eslint-disable-next-line no-undef
-    const item = document.createElement("a");
+    const item = document.createElement("div");
     siteList.appendChild(item);
-    item.href = s.url;
     item.innerHTML = s.site;
     item.className = "search-site";
-    item.setAttribute("target", "_blank");
-    item.setAttribute("rel", "noopener noreferrer");
   });
 };
 
 const initialize = async () => {
+  const sites = await getData("/sites");
+  sites && createSitesList(sites);
+
   const timestamps = await getData("/mentions/neymar/timestamps");
   const summary = await getData("/mentions/neymar/summary");
 
   timestamps && createTimeBlocks(timestamps, summary);
-  const sites = await getData("/sites");
-  sites && createSitesList(sites);
 };
 
 initialize();
