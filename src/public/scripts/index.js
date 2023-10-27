@@ -5,7 +5,7 @@ const detail = document.getElementById("detail");
 
 const getData = async (route) => {
   try {
-    const response = await fetch(`/mentions/neymar/${route}`);
+    const response = await fetch(route);
     if (!response.ok) {
       throw new Error("Something went wrong with the request.");
     }
@@ -99,10 +99,28 @@ const getTooltipString = (runTime, mentions) =>
     hour12: false,
   })}h`;
 
+const createSitesList = (sites) => {
+  // eslint-disable-next-line no-undef
+  const siteList = document.getElementById("site-list");
+  sites.forEach((s) => {
+    // eslint-disable-next-line no-undef
+    const item = document.createElement("a");
+    siteList.appendChild(item);
+    item.href = s.url;
+    item.innerHTML = s.site;
+    item.className = "search-site";
+    item.setAttribute("target", "_blank");
+    item.setAttribute("rel", "noopener noreferrer");
+  });
+};
+
 const initialize = async () => {
-  const timestamps = await getData("timestamps");
-  const summary = await getData("summary");
+  const timestamps = await getData("/mentions/neymar/timestamps");
+  const summary = await getData("/mentions/neymar/summary");
+
   timestamps && createTimeBlocks(timestamps, summary);
+  const sites = await getData("/sites");
+  sites && createSitesList(sites);
 };
 
 initialize();
