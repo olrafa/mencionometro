@@ -64,6 +64,19 @@ h3 {
   text-align: center;
 }
 
+#info a:link {
+  text-decoration: none;
+  color: aquamarine;
+}
+
+#info a:visited {
+  color: floralwhite;
+}
+
+#info a:hover {
+  color: aquamarine;
+}
+
 #site-list {
   display: flex;
   flex-wrap: wrap;
