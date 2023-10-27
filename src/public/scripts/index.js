@@ -77,18 +77,23 @@ const createTimeBlocks = (timestamps, summary) => {
         sites.includes(innerHTML)
       );
 
-      runBlock.addEventListener("mouseenter", () => {
-        detail.innerHTML = getTooltipString(dr, mentions);
-        resultSites.forEach((rs) => {
-          rs.classList.add("site-result");
-        });
-      });
-      runBlock.addEventListener("mouseleave", () => {
-        detail.innerHTML = "";
-        resultSites.forEach((rs) => {
-          rs.classList.remove("site-result");
-        });
-      });
+      ["mouseenter", "touchstart"].map((event) =>
+        runBlock.addEventListener(event, () => {
+          detail.innerHTML = getTooltipString(dr, mentions);
+          resultSites.forEach((rs) => {
+            rs.classList.add("site-result");
+          });
+        })
+      );
+
+      ["mouseleave", "touchend"].map((event) =>
+        runBlock.addEventListener(event, () => {
+          detail.innerHTML = "";
+          resultSites.forEach((rs) => {
+            rs.classList.remove("site-result");
+          });
+        })
+      );
     });
 
     // Create empty blocks for the remaining runs of the day
