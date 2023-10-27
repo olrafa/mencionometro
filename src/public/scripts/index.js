@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-undef
 const chart = document.getElementById("chart");
+// eslint-disable-next-line no-undef
+const detail = document.getElementById("detail");
 
 const getData = async (route) => {
   try {
@@ -14,10 +16,29 @@ const getData = async (route) => {
   }
 };
 
+const getIsToday = (timestamp) => {
+  const date = new Date(timestamp);
+
+  const currentDate = new Date();
+
+  return (
+    date.getDate() === currentDate.getDate() &&
+    date.getMonth() === currentDate.getMonth() &&
+    date.getFullYear() === currentDate.getFullYear()
+  );
+};
+
+const createEmptyBlock = (element) => {
+  // eslint-disable-next-line no-undef
+  const emptyBlock = document.createElement("div");
+  emptyBlock.className = "run-block";
+  element.appendChild(emptyBlock);
+};
+
 const createTimeBlocks = (timestamps, summary) => {
   const days = timestamps.map((ts) => new Date(ts).setHours(0, 0, 0, 0));
   const uniqueDays = [...new Set(days)].map((d) => new Date(d));
-  uniqueDays.forEach((d, i) => {
+  uniqueDays.forEach((d) => {
     // eslint-disable-next-line no-undef
     const dayBlock = document.createElement("div");
     chart.appendChild(dayBlock);
@@ -27,18 +48,11 @@ const createTimeBlocks = (timestamps, summary) => {
         new Date(new Date(ts).setHours(0, 0, 0, 0)).toString() === d.toString()
     );
 
-    const createEmptyBlock = () => {
-      // eslint-disable-next-line no-undef
-      const emptyBlock = document.createElement("div");
-      emptyBlock.className = "run-block";
-      dayBlock.appendChild(emptyBlock);
-    };
-
-    // Workaround to get blocks of the first day aligned with the others;
-    // Remove this when first scraping day is not returned anymore.
-    if (!i) {
-      createEmptyBlock();
-      createEmptyBlock();
+    // Create empty blocks for the first day of runs.
+    const isToday = getIsToday(d);
+    if (!isToday && dayRuns.length < 4) {
+      const fillerBlocks = 4 - dayRuns.length;
+      Array.from({ length: fillerBlocks }, () => createEmptyBlock(dayBlock));
     }
 
     dayRuns.forEach((dr) => {
@@ -53,14 +67,20 @@ const createTimeBlocks = (timestamps, summary) => {
       dayBlock.appendChild(runBlock);
       runBlock.className = "run-block";
       runBlock.style.backgroundColor = color;
-      runBlock.setAttribute("data-tooltip", getTooltipString(dr, mentions));
+      runBlock.addEventListener("mouseenter", () => {
+        detail.innerHTML = getTooltipString(dr, mentions);
+      });
+      runBlock.addEventListener("mouseleave", () => {
+        detail.innerHTML = "";
+      });
     });
 
+    // Create empty blocks for the remaining runs of the day
     const completeDayBlock = () => {
       if (dayBlock.childElementCount >= 4) {
         return;
       }
-      createEmptyBlock();
+      createEmptyBlock(dayBlock);
       completeDayBlock();
     };
 
@@ -69,7 +89,7 @@ const createTimeBlocks = (timestamps, summary) => {
 };
 
 const getTooltipString = (runTime, mentions) =>
-  `${mentions} resultados em ${new Date(
+  `${mentions} ${mentions >= 2 ? "resultados" : "resultado"} em ${new Date(
     runTime
   ).toLocaleString("pt-BR", {
     year: "numeric",
@@ -77,7 +97,7 @@ const getTooltipString = (runTime, mentions) =>
     day: "numeric",
     hour: "2-digit",
     hour12: false,
-  })} horas`;
+  })}h`;
 
 const initialize = async () => {
   const timestamps = await getData("timestamps");

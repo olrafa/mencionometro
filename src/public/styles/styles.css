@@ -22,9 +22,21 @@ h1 {
 #chart {
   margin-top: 2rem;
   border-radius: 4px;
+  padding: 0.5rem;
+  padding-top: 0.79rem;
+  background-color: rgb(13, 17, 23, 0.8);
+  opacity: 1;
+}
+
+#detail {
+  margin-top: 1px;
+  border-radius: 4px;
   padding: 1rem;
   background-color: rgb(13, 17, 23, 0.8);
   opacity: 1;
+  height: 1.2rem;
+  text-align: left;
+  color: ghostwhite;
 }
 
 .time-block {
@@ -34,7 +46,7 @@ h1 {
 .run-block {
   width: 15px;
   height: 15px;
-  margin: 3px;
+  margin: 3px 2px;
   border-radius: 2px;
   position: relative;
 }
@@ -42,7 +54,6 @@ h1 {
 [data-tooltip]:before {
   content: attr(data-tooltip);
   position: absolute;
-  width: min-content;
   opacity: 0;
   top: 5px;
   padding: 10px;
@@ -83,6 +94,10 @@ h1 {
 
   #content {
     margin: 1rem 0.5rem;
+  }
+
+  #detail {
+    height: 2.4rem;
   }
 
   #info {
