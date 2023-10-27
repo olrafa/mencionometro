@@ -35,7 +35,7 @@ h1 {
   background-color: rgb(13, 17, 23, 0.8);
   opacity: 1;
   height: 1.2rem;
-  text-align: left;
+  text-align: center;
   color: ghostwhite;
 }
 
@@ -72,6 +72,12 @@ h1 {
 #info {
   text-align: left;
   padding: 0 0.5rem;
+  width: 40rem;
+  margin: 0 auto;
+}
+
+h3 {
+  text-align: center;
 }
 
 #unsplash-credit {
@@ -102,5 +108,6 @@ h1 {
 
   #info {
     padding: 0;
+    width: 100%;
   }
 }
