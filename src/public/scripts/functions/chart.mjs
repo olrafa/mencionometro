@@ -44,6 +44,7 @@ const addBlocks = (summary, dayRun, dayBlock) => {
   dayBlock.appendChild(runBlock);
   runBlock.className = "run-block";
   runBlock.style.backgroundColor = color;
+  runBlock.dataset.sites = sites;
 
   const siteNameElements = Array.from(
     // eslint-disable-next-line no-undef
@@ -76,6 +77,51 @@ const addEvents = (runBlock, dayRun, mentions, resultSites) => {
   );
 };
 
+const addSitesHover = () => {
+  const siteNameElements = Array.from(
+    // eslint-disable-next-line no-undef
+    document.querySelectorAll(".search-site")
+  );
+
+  // eslint-disable-next-line no-undef
+  const runBlocks = Array.from(document.querySelectorAll(".run-block"));
+
+  siteNameElements.forEach((site) => {
+    ["mouseenter", "touchstart"].map((event) =>
+      site.addEventListener(event, () => {
+        const runsCount = runBlocks.filter((rb) =>
+          rb.dataset?.sites?.includes(site.innerHTML)
+        ).length;
+        highlightRuns(site.innerHTML, runBlocks);
+        detail.innerHTML = `O termo "Neymar" foi encontrado em ${runsCount} visitas ao site ${site.innerHTML}`;
+      })
+    );
+  });
+
+  siteNameElements.forEach((site) => {
+    ["mouseleave", "touchend"].map((event) =>
+      site.addEventListener(event, () => removeHighlights(runBlocks))
+    );
+  });
+};
+
+const highlightRuns = (siteName, runBlocks) =>
+  runBlocks.forEach((rb) => {
+    const hasSiteList = !!rb.dataset?.sites;
+    if (!hasSiteList) return;
+    rb.dataset.sites.includes(siteName)
+      ? rb.classList.add("highlight")
+      : rb.classList.add("no-highlight");
+  });
+
+const removeHighlights = (elements) => {
+  detail.innerHTML = "";
+  elements.forEach((el) => {
+    el.classList.remove("highlight");
+    el.classList.remove("no-highlight");
+  });
+};
+
 const fillDay = (day, timestamps, summary) => {
   // eslint-disable-next-line no-undef
   const dayBlock = document.createElement("div");
@@ -106,4 +152,5 @@ export const createTimeBlocks = (timestamps, summary) => {
   const days = timestamps.map((ts) => new Date(ts).setHours(0, 0, 0, 0));
   const uniqueDays = [...new Set(days)].map((d) => new Date(d));
   uniqueDays.forEach((d) => fillDay(d, timestamps, summary));
+  addSitesHover();
 };
