@@ -28,6 +28,8 @@ h1 {
   padding-top: 0.79rem;
   background-color: rgb(13, 17, 23, 0.8);
   opacity: 1;
+  display: flex;
+  overflow-x: auto;
 }
 
 #detail {
