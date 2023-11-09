@@ -1,11 +1,15 @@
-## Neymarmeter
+## Mencionômetro
 
-Neymar está sempre nas páginas de todos os principais sites de notícias do Brasil, e nós podemos provar!
+Temos um robô rodando os principais sites de notícia do Brasil, procruando por termos específicos. Esta API serve os resultados.
 
-Todo dia, quatro vezes por dia, abrimos todos os sites e buscamos o nome "Neymar". Os resultados formam um gráfico inspirado no gráfico de contribuições do Github.
+O front-end para o termo "Neymar" está [aqui](https://github.com/olrafa/neymarmeter)
 
 ### Desenvolvimento
 
-A parte mais importante do app é a API, feita em Typescript com Express. Na home servimos o HTML estático, com um pouco de Javascript, que é visto no site.
+A parte mais importante do app é a API, feita em Typescript com Express.
 
-O scraper roda sozinho em [outro repositório](https://github.com/olrafa/media-scraper) via Github actions.
+### Clonando
+
+Depois de clonar o repo, fazer o `npm install`. Rodando com `npm run dev`, o Express servirá o app na porta 3002 e o Nodemon fará um reload a cada vez que detectar uma mudança.
+
+Não se esqueça de criar um arquivo `.env` com as informações do seu banco de dados local.
