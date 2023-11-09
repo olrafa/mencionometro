@@ -1,8 +1,9 @@
 import express from "express";
-import path from "path";
 
 const router = express.Router();
 
-router.get("/", (req, res) => res.sendFile(path.join(__dirname, "public")));
+const defaultMessage = "Bem-vindo ao mencionômetro. Explore as outras rotas.";
+
+router.get("/", (req, res) => res.status(200).json(defaultMessage));
 
 export default router;
