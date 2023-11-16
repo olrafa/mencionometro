@@ -4,9 +4,12 @@ import { client } from "../config";
 
 const router = express.Router();
 
-router.get("/hits-per-site", (request: Request, response: Response) => {
+router.get("/news", (request: Request, response: Response) => {
+  const { date } = request.query;
+
   client.query(
-    "SELECT site, COUNT(*) as record_count FROM mentions GROUP BY site ORDER BY record_count DESC;",
+    "SELECT * FROM stories WHERE DATE(created_at) = $1",
+    [date],
     (error, results) => {
       if (error) {
         throw error;
