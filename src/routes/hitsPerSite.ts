@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/hits-per-site", (request: Request, response: Response) => {
   client.query(
-    "SELECT site, COUNT(*) as record_count FROM mentions GROUP BY site ORDER BY record_count DESC;",
+    "SELECT site FROM mentions GROUP BY site ORDER BY COUNT(*) DESC;",
     (error, results) => {
       if (error) {
         throw error;
