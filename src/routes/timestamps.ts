@@ -11,7 +11,7 @@ router.get(
     const { word } = request.params;
 
     client.query(
-      "SELECT * FROM mentions WHERE LOWER(searchTerm) = LOWER($1) ORDER BY created_at LIMIT 1",
+      "SELECT * FROM mentions WHERE LOWER(searchTerm) = LOWER($1) AND created_at >= CURRENT_DATE - INTERVAL '30 days' ORDER BY created_at LIMIT 1",
       [word],
       (error, results) => {
         if (error) {
