@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/hits-per-site", (request: Request, response: Response) => {
   client.query(
-    "SELECT site FROM mentions GROUP BY site ORDER BY COUNT(*) DESC;",
+    "SELECT site FROM mentions WHERE created_at >= CURRENT_DATE - INTERVAL '30 days' GROUP BY site ORDER BY COUNT(*) DESC;",
     (error, results) => {
       if (error) {
         throw error;
